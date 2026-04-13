@@ -1,0 +1,45 @@
+# 🔹 Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 🔹 Virtual environment
+venv/
+env/
+.venv/
+
+# 🔹 Environment variables (secrets)
+.env
+
+# 🔹 Pytest
+.pytest_cache/
+.cache/
+
+# 🔹 Logs
+logs/
+*.log
+
+# 🔹 Test reports
+reports/
+allure-results/
+allure-report/
+
+# 🔹 IDE / Editor files
+.vscode/
+.idea/
+
+# 🔹 OS files
+.DS_Store
+Thumbs.db
+
+# 🔹 Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# 🔹 Temporary files
+*.tmp
+*.swp
+
+# 🔹 Node (if used for tools)
+node_modules/
