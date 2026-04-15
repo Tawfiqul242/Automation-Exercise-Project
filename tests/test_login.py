@@ -1,6 +1,7 @@
 from selenium import webdriver
 from pages.login_page import LoginPage
-from selenium.webdriver.common.by import By
+import os
+
 
 def test_login_invalid_user():
     driver = webdriver.Chrome()
@@ -14,4 +15,16 @@ def test_login_invalid_user():
     password = 74125
     login_page.login(email, password)
 
-    assert "Your email or password is incorrect!" in login_page.is_login_invalid()
+    try:
+        assert "Your email or password is incorrect!" in login_page.is_login_invalid()
+        
+    except:
+        folder = "screenshots"
+        os.makedirs(folder, exist_ok=True)
+        path = os.path.join(folder, "test_login_invalid_user.png")
+        driver.save_screenshot(path)
+        raise AssertionError("Login failed message is not displayed as expected.")
+
+
+
+
