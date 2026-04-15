@@ -16,5 +16,5 @@ class LoginPage(BasePage):
         self.click(self.LOGIN_BUTTON)
 
     def is_login_invalid(self):
-        return self.get_text(self.LOGIN_FAIL_MESSAGE)
+        return self.get_text(self.LOGIN_FAIL_MESSAG)
 
