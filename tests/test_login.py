@@ -3,10 +3,7 @@ from pages.login_page import LoginPage
 from utils.screenshots import save_screenshots 
 
 
-def test_login_invalid_user():
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    driver.get("https://automationexercise.com/login")
+def test_login_invalid_user(driver):
 
     login_page = LoginPage(driver)
 
