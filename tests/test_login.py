@@ -1,4 +1,3 @@
-from selenium import webdriver
 from pages.login_page import LoginPage
 from utils.screenshots import save_screenshots 
 
