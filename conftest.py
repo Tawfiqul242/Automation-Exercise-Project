@@ -12,7 +12,7 @@ def driver():
     driver.quit()
 
 @pytest.hookimpl(hookwrapper = True)
-def pytest_runtest_makereport(item, _):
+def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
 
