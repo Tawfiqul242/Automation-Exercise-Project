@@ -1,12 +1,12 @@
 from pages.login_page import LoginPage
 from utils.screenshots import save_screenshots 
-from utils.logger import setup_logging
+import logging
+#from utils.logger import logger 
 
-logger = setup_logging(__name__)
-
-logger.info("testing invalid user login")
+logger = logging.getLogger(__name__)
+#logger = logging.getLogger()
 def test_login_invalid_user(driver):
-
+    logger.info("testing invalid user login")
     login_page = LoginPage(driver)
 
     
@@ -20,8 +20,8 @@ def test_login_invalid_user(driver):
         
     except Exception as e:
         save_screenshots(driver,"test_login_invalid_user")
-        logger.error(F"Failed to show the error message: {e}")
-        #raise AssertionError("Login failed message is not displayed as expected.")
+        logger.error(f"Failed to show the error message: {e}")
+        raise
         
     
 
