@@ -1,23 +1,31 @@
 import logging
 import os
 
-def setup_logging(log_file="test.log"):
+def setup_logging(log_file):
     folder = "logs"
     os.makedirs(folder, exist_ok= True)
-    file_path = f"{folder}/{log_file}"
+    file_path = f"{folder}/automation.log"
 
-    logger = logging.getLogger("automation_logger")
-    logger.setLevel(logging.INFO)
+    root_logger = logging.getLogger()  #log_file
+    root_logger.setLevel(logging.INFO)
 
+    already_added = any(
+        isinstance(h, logging.FileHandler) and getattr(h, 'baseFilename', '') == os.path.abspath(file_path)
+        for h in root_logger.handlers
+    )
 
-    if  not any(isinstance(h, logging.FileHandler) for h in logger.handlers):
-        logger.handlers.clear()
+    if not already_added:
         file_handler = logging.FileHandler(file_path, mode="a")
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+        file_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter("%(asctime)s | %(levelname)-8s | %(name)-20s | %(filename)s:%(lineno)-8d | %(funcName)s() | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S")
 
         file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
+        root_logger.addHandler(file_handler)
 
+    
+    # ---- DIAGNOSTIC: add these 2 lines ----
+    print("Level:", root_logger.level)
+    print("Handlers:", root_logger.handlers)       
     print(f"Logging setup complete → {file_path}")
-    logger.propagate = True
-    return logger
+    return logging.getLogger(log_file)

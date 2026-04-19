@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from utils.screenshots import save_screenshots
 from utils.logger import setup_logging
+import logging
 
 print("CONFTEST FILE LOADED")
 
@@ -25,7 +26,10 @@ def pytest_runtest_makereport(item, call):
         if driver:
             save_screenshots(driver, item.name)
 
+
 @pytest.fixture(scope="session", autouse= True)
 def setup_project_logging():
+    setup_logging("test_session")
     print("LOGGING FIXTURE RUNNING")  # debug
-    setup_logging()
+    yield                           # this line is the key addition
+    logging.shutdown()

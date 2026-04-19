@@ -1,5 +1,8 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+from utils.logger import setup_logging
+
+log = setup_logging(__name__)
 
 class LoginPage(BasePage):
 
@@ -8,7 +11,7 @@ class LoginPage(BasePage):
     PASSWORD_FIELD = (By.CSS_SELECTOR, "input[placeholder='Password']")
     LOGIN_BUTTON = (By.CSS_SELECTOR, "button[data-qa='login-button']")
     LOGIN_FAIL_MESSAGE = (By.CSS_SELECTOR, "body > section:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > form:nth-child(2) > p:nth-child(4)")
-
+    log.info("inputing email and password field")
     # page methods
     def login(self, email, password):
         self.send_key(self.EMAIL_FIELD, email)
