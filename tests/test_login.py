@@ -10,7 +10,7 @@ def test_login_invalid_user(driver):
     login_page = LoginPage(driver)
 
     
-    email = "email@gmail.com"
+    email = "emailgmail.com"
     password = 74125
     login_page.login(email, password)
 
