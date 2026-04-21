@@ -10,7 +10,9 @@ def setup_logging(log_file):
     root_logger.setLevel(logging.INFO)
 
     already_added = any(
-        isinstance(h, logging.FileHandler) and getattr(h, 'baseFilename', '') == os.path.abspath(file_path)
+        isinstance(h, logging.FileHandler)
+        and 
+        getattr(h, 'baseFilename', '') == os.path.abspath(file_path)
         for h in root_logger.handlers
     )
 
