@@ -27,26 +27,5 @@ class AccountInfoPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def select_title(self, title):
-        self.click(self.MR_TITLE) if title == "Mr." else self.click(self.MRS_TITLE)
-
-    def enter_password(self, password):
-        self.send_key(self.PASSWORD_FIELD, password)
-
-    def enter_birthdate(self, day, month, year):
-        self.BIRTH_DAY_DROPDWON.select_by_value(day)
-        self.BIRTH_MONTH_DROPDOWN.select_by_index(month)
-        self.BIRTH_YEAR_DROPDOWN.select_by_value(year)
-
-    def select_newsletter(self, newsletter = None):
-        if newsletter: self.click(self.NEWSLETTER_CHECKBOX)
-
-    def select_offers(self, offer = None):
-        if offer: self.click(self.OFFERS_CHECKBOX)
-
-    def enter_address(self,user_info):
-        
-
-    def account_create(self, title, password, birthDay,birthMonth, birthYear, newsletter, offers, fName, lName, country, state, city, zipcode, contact):
-        self.click(self.OFFERS_CHECKBOX)
+    
 
