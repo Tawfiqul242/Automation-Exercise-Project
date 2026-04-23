@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
+from pages.account_info_page import AccountInfoPage
 
 class RegistrationPage(BasePage):
 
@@ -7,7 +8,7 @@ class RegistrationPage(BasePage):
     NAME = (By.CSS_SELECTOR, "input[placeholder='Name']")
     EMAIL_ADD = (By.CSS_SELECTOR, "input[data-qa='signup-email']")
     SIGNUP_BUTTON = (By.CSS_SELECTOR, "button[data-qa='signup-button']")
-    ACCOUNT_INFO = (By.CSS_SELECTOR, "h2.title.text-center ~ b")
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "h2[class='title text-center'] b")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -17,8 +18,11 @@ class RegistrationPage(BasePage):
         self.send_key(self.NAME, user_data["name"])
         self.send_key(self.EMAIL_ADD, user_data["email"])
         self.click(self.SIGNUP_BUTTON)
+        return AccountInfoPage(self.driver)
 
     def is_registration_successful(self):
-        self.get_text(self.ACCOUNT_INFO)
+        return self.get_text(self.SUCCESS_MESSAGE)
+
+    
 
     
