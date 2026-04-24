@@ -10,7 +10,7 @@ print("CONFTEST FILE LOADED")
 def driver():
     driver = webdriver.Chrome()
     driver.maximize_window()
-    driver.get("https://automationexercise.com/login")
+    driver.get("https://automationexercise.com/")
 
     yield driver
     driver.quit()
