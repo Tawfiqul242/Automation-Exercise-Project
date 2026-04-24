@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By 
 from pages.base_page import BasePage
-from selenium.webdriver.support.ui import Select
 
 class AccountInfoPage(BasePage):
     #locators
+    ENTER_ACCOUNT_INFO = (By.XPATH, "//b[normalize-space()='Enter Account Information']")
     MR_TITLE = (By.CSS_SELECTOR, "label[for='id_gender1']")
     MRS_TITLE =  (By.CSS_SELECTOR, "label[for='id_gender2']")
     PASSWORD_FIELD = (By.CSS_SELECTOR, "#password")
@@ -23,27 +23,27 @@ class AccountInfoPage(BasePage):
     ZIPCODE = (By.CSS_SELECTOR, "#zipcode")
     MOBILE_NUMBER = (By.CSS_SELECTOR, "#mobile_number")
     CREATE_ACCOUNT_BUTTON = (By.CSS_SELECTOR, "button[data-qa='create-account']")
+    ACCOUNT_CREATED = (By.CSS_SELECTOR, "h2[class='title text-center'] b")
+    CREATE_CONTINUE_BTN = (By.XPATH, "//a[normalize-space()='Continue']")
+    LOGGED_IN_TEXT = (By.CSS_SELECTOR, "li:nth-child(10) a:nth-child(1)")
+    DELETE_ACCOUNT_BTN = (By.CSS_SELECTOR, "a[href='/delete_account']")
+    ACCOUNT_DELETED = (By.CSS_SELECTOR, "h2[class='title text-center'] b")
+    DELETE_CONTINUE_BTN = (By.XPATH, "//a[normalize-space()='Continue']")
 
     def __init__(self, driver):
         super().__init__(driver)
 
     #page action methods
-
-    def select_title(self, title):
+    def is_enter_account_info_visible(self):
+        return self.is_visible(self.ENTER_ACCOUNT_INFO)
+    
+    def enter_account_info(self, title, password, day, month, year):
         self.click(self.MR_TITLE) if title == "Mr." else self.click(self.MRS_TITLE)
-
-    def enter_password(self, password):
         self.send_key(self.PASSWORD_FIELD, password)
-
-    def enter_birth_day(self, value):
-        self.select_dropdown_by_value(self.BIRTH_DAY, value)
-
-    def enter_birth_month(self, value):
-        self.select_dropdown_by_index(self.BIRTH_MONTH, value)
-
-    def enter_birth_year(self, value):
-        self.select_dropdown_by_value(self.BIRTH_YEAR, value)
-
+        self.select_dropdown_by_value(self.BIRTH_DAY, str(day))
+        self.select_dropdown_by_visible_text(self.BIRTH_MONTH, str(month))
+        self.select_dropdown_by_visible_text(self.BIRTH_YEAR, str(year))
+        
     def select_newsletter(self, newsletter = None):
         if newsletter: self.click(self.NEWSLETTER_CHECKBOX)
 
@@ -63,13 +63,14 @@ class AccountInfoPage(BasePage):
         self.send_key(self.MOBILE_NUMBER, mobile)
 
 
-    def account_create(self, user_info):
-        self.select_title(user_info["title"])
-        self.enter_password(user_info["password"])
-        
-        self.enter_birth_day(user_info["day"])
-        self.enter_birth_month(user_info["month"])
-        self.enter_birth_year(user_info["year"])
+    def enter_create_account_info(self, user_info):
+        self.enter_account_info(
+            user_info["title"],
+            user_info["password"],
+            user_info["day"],
+            user_info["month"],
+            user_info["year"]
+            )
         
         self.select_newsletter(user_info["newsletter"])
         self.select_offers(user_info["offer"])
@@ -86,5 +87,25 @@ class AccountInfoPage(BasePage):
             user_info["zipcode"],
             user_info["mobile"],
         )
+
+    def click_create_account(self):
         self.click(self.CREATE_ACCOUNT_BUTTON)
+
+    def is_account_created_visible(self):
+        return self.is_visible(self.ACCOUNT_CREATED)
+    
+    def click_create_continue(self):
+        self.click(self.CREATE_CONTINUE_BTN)
+
+    def is_logged_in_visible(self):
+        return self.is_visible(self.LOGGED_IN_TEXT)
+    
+    def click_delete(self):
+        self.click(self.DELETE_ACCOUNT_BTN)
+    
+    def is_account_deleted_visible(self):
+        return self.is_visible(self.ACCOUNT_DELETED)
+
+    def click_delete_continue(self):
+        self.click(self.DELETE_CONTINUE_BTN)
 
