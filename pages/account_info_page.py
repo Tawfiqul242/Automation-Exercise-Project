@@ -38,7 +38,10 @@ class AccountInfoPage(BasePage):
         return self.is_visible(self.ENTER_ACCOUNT_INFO)
     
     def enter_account_info(self, title, password, day, month, year):
-        self.click(self.MR_TITLE) if title == "Mr." else self.click(self.MRS_TITLE)
+        if title == "Mr.":
+            self.click(self.MR_TITLE) 
+        elif title == "Mrs.":
+            self.click(self.MRS_TITLE)
         self.send_key(self.PASSWORD_FIELD, password)
         self.select_dropdown_by_value(self.BIRTH_DAY, str(day))
         self.select_dropdown_by_visible_text(self.BIRTH_MONTH, str(month))
@@ -55,8 +58,8 @@ class AccountInfoPage(BasePage):
         self.send_key(self.LAST_NAME, lname)
         self.send_key(self.COMPANY, company)
         self.send_key(self.ADDRESS, address)
-        self.send_key(self.OPTIONAL_ADDRESS, optional_address)
-        self.select_dropdown_by_index(self.COUNTRY, country)
+        if optional_address: self.send_key(self.OPTIONAL_ADDRESS, optional_address)
+        self.select_dropdown_by_visible_text(self.COUNTRY, country)
         self.send_key(self.STATE, state)
         self.send_key(self.CITY, city)
         self.send_key(self.ZIPCODE, zipcode)
