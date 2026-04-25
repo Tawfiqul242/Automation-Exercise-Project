@@ -6,8 +6,11 @@ def generate_user_data(name = None, email = None):
     faker = Faker()
     random_number = random.randint(1000, 9999)
     random_day = random.randint(1, 31)
+    random_month = random.randint(1,12)
     random_year = random.randint(1900, 2021)
-    month = calendar.month_name
+    month = calendar.month_name[random_month]
+    countrlylist = ["India","United States", "Canada", "Australia", "New Zealand", "Singapore"]
+    country = random.choice(countrlylist)
 
     fname = faker.first_name()
     return{
@@ -16,7 +19,7 @@ def generate_user_data(name = None, email = None):
         "title": None,
         "password": f"{fname}{random_number}",
         "day": random_day,
-        "month": random_month,
+        "month": month,
         "year": random_year,
         "newsletter": None,
         "offer": None,
@@ -25,7 +28,7 @@ def generate_user_data(name = None, email = None):
         "company": faker.company(),
         "address": faker.address(),
         "optional_address": None,
-        "country": faker.country(),
+        "country": country,
         "state": faker.state(),
         "city": faker.city(),
         "zipcode": faker.zipcode(),
