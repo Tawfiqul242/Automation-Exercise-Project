@@ -25,9 +25,5 @@ def setup_logging(log_file):
         file_handler.setFormatter(formatter)
         root_logger.addHandler(file_handler)
 
-    
-    # ---- DIAGNOSTIC: add these 2 lines ----
-    print("Level:", root_logger.level)
-    print("Handlers:", root_logger.handlers)       
-    print(f"Logging setup complete → {file_path}")
+  
     return logging.getLogger(log_file)
