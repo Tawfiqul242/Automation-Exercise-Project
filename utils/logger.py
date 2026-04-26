@@ -19,7 +19,7 @@ def setup_logging(log_file):
     if not already_added:
         file_handler = logging.FileHandler(file_path, mode="a")
         file_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter("%(asctime)s | %(levelname)-8s | %(name)-20s | %(filename)s:%(lineno)-8d | %(funcName)s() | %(message)s",
+        formatter = logging.Formatter("%(asctime)s | %(levelname)-8s | %(name)-20s | %(filename)s:%(lineno)-12d | %(funcName)s() | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S")
 
         file_handler.setFormatter(formatter)
