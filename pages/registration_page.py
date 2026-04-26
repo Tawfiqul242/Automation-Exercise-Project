@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
-from pages.account_info_page import AccountInfoPage
 
 class RegistrationPage(BasePage):
 
@@ -23,7 +22,6 @@ class RegistrationPage(BasePage):
         
     def click_signup(self):
         self.click(self.SIGNUP_BUTTON)
-        #return AccountInfoPage(self.driver)
 
  
 
