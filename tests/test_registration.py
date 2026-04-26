@@ -2,14 +2,14 @@ from pages.home_page import HomePage
 from pages.registration_page import RegistrationPage
 from pages.account_info_page import AccountInfoPage
 from utils.screenshots import save_screenshots
+import logging
 from utils.logger import setup_logging
 from utils.user_helper import generate_user_data
 import time
 
-log = setup_logging(__name__)
+log = logging.getLogger(__name__)
 
-def test_valid_user_register(driver):  # test complete user registration account creations and deletation flow
-    user_data = generate_user_data()
+def test_valid_user_register(driver, new_user):  # test complete user registration account creations and deletation flow
     
     #page class objects
     home = HomePage(driver)
@@ -23,14 +23,14 @@ def test_valid_user_register(driver):  # test complete user registration account
         assert home.is_homepage_visible(), "Home page is not visible"
         log.info("Home Page is Visible")
 
-        home.click_signup()
+        home.click_signup_login_btn()
         log.info("Clicking signup button from navbar")
 
         #verify "New User Singup" is visible
         assert signup.is_new_user_visible(), "New User Signup is not visible"
         log.info("New User Signup is visible")
 
-        signup.enter_signup_info(user_data)
+        signup.enter_signup_info(new_user)
         log.info("Entered Name & Email in singup form")
 
         signup.click_signup()
@@ -42,7 +42,7 @@ def test_valid_user_register(driver):  # test complete user registration account
         assert account.is_enter_account_info_visible(), "Enter Account Information is not visible"
         log.info("Enter Account Information is visible")
 
-        account.enter_create_account_info(user_data)
+        account.enter_create_account_info(new_user)
         log.info("Entered Account Information")
         account.click_create_account()
         log.info("clicking Create Account button")
@@ -72,7 +72,7 @@ def test_valid_user_register(driver):  # test complete user registration account
 
     except AssertionError as e:
         log.error(f"Assertion Failed: {e}")
-        save_screenshots(driver, "test failure")
+        save_screenshots(driver, "Valid user registration test failure")
         raise
 
     except Exception as e:
@@ -81,6 +81,6 @@ def test_valid_user_register(driver):  # test complete user registration account
         raise
 
     finally: 
-        log.info("Test Execution Finished.")
+        log.info("Valid User Account Creation Test Execution Finished.")
 
 
