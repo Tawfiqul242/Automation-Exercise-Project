@@ -17,9 +17,3 @@ class HomePage(BasePage):
     
     def click_signup_login_btn(self):
         self.click(self.SIGNUP_LOGIN_BTN)
-
-"""     def is_loggedin(self):
-        return self.is_visible(self.LOGGEDIN_TEXT)
-    
-    def delete_account(self):
-        self.click(self.DELETE_ACCOUNT) """
