@@ -15,7 +15,7 @@ class HomePage(BasePage):
     def is_homepage_visible(self):
         return "automation exercise" in self.driver.title.lower()
     
-    def click_signup(self):
+    def click_signup_login_btn(self):
         self.click(self.SIGNUP_LOGIN_BTN)
 
 """     def is_loggedin(self):
