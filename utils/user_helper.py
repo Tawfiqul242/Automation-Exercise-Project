@@ -1,6 +1,8 @@
 from faker import Faker
 import random
 import calendar
+from pages.registration_page import RegistrationPage
+from pages.account_info_page import AccountInfoPage
 
 def generate_user_data(name = None, email = None):
     faker = Faker()
@@ -34,3 +36,15 @@ def generate_user_data(name = None, email = None):
         "zipcode": faker.zipcode(),
         "mobile": faker.msisdn()
     }
+
+# Registered user helper
+def register_new_user(driver, user_data):
+    # page class objects
+    signup = RegistrationPage(driver)
+    account = AccountInfoPage(driver)
+
+    signup.enter_signup_info(user_data) # fill signup form fields
+    signup.click_signup()
+
+    account.enter_account_info(user_data) #fill account information fields
+    account.click_create_account()
