@@ -3,6 +3,10 @@ import random
 import calendar
 from pages.registration_page import RegistrationPage
 from pages.account_info_page import AccountInfoPage
+from pages.home_page import HomePage
+import logging
+
+log = logging.getLogger(__name__)
 
 def generate_user_data(name = None, email = None):
     faker = Faker()
@@ -42,9 +46,23 @@ def register_new_user(driver, user_data):
     # page class objects
     signup = RegistrationPage(driver)
     account = AccountInfoPage(driver)
+    home_page = HomePage(driver)
 
+    home_page.click_signup_login_btn()
+    log.info("Filling signup form")
     signup.enter_signup_info(user_data) # fill signup form fields
     signup.click_signup()
+    log.info("Clicking signup button")
 
-    account.enter_account_info(user_data) #fill account information fields
+    log.info("Filling account information for all fields")
+    account.enter_create_account_info(user_data) #fill account information for all fields 
     account.click_create_account()
+    log.info("clicking Create Account button")
+    account.click_create_continue()
+    log.info("Clicking Continue button")
+
+    home_page.click_logout_btn()
+    log.info("Clicking Logout button")
+
+    home_page.click_home_btn()
+    log.info("Clicking Home button")
