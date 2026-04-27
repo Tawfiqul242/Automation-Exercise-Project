@@ -2,7 +2,6 @@ import logging
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from pages.account_info_page import AccountInfoPage
-from utils.screenshots import save_screenshots 
  
 log = logging.getLogger(__name__)
 
@@ -44,12 +43,10 @@ def test_login_user_with_valid_data(driver, registered_user): # test login with 
 
     except AssertionError as e:
         log.error(f"Assertion Failed:{e}") 
-        save_screenshots(driver, "Login with valid user credentails test failed")
         raise
 
     except Exception as e:
         log.error(f"Unexpected error in test: {e}")
-        save_screenshots(driver,"login with valid data test failed")
         raise
 
     finally:
