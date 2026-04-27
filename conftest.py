@@ -73,6 +73,7 @@ def registered_user(driver, new_user):
     register_new_user(driver, new_user) # register new user
 
     log.info("New user registration completed")
+    print(f"fixture: {new_user}")
     return new_user
 
 
