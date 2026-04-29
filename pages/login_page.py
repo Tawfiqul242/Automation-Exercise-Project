@@ -47,6 +47,6 @@ class LoginPage(BasePage):
         return self.is_visible(self.ACCOUNT_DELETED)
 
     #show validation error message
-    def is_login_invalid(self):
-        return self.get_text(self.LOGIN_FAIL_MESSAGE)
+    def is_email_password_incorrect_visible(self):
+        return self.is_visible(self.LOGIN_FAIL_MESSAGE)
 
