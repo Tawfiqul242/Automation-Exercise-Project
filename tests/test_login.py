@@ -56,4 +56,47 @@ def test_login_user_with_valid_data(driver, registered_user): # test login with 
 
 
 
+def test_login_user_with_invalid_data(driver, new_user): # test login with invalid credentials
+    #page objects
+    login = LoginPage(driver)
+    home = HomePage(driver)
+
+    try:
+        log.info("-- Starting Login User With Invalid Data Test--")
+
+        #Verify home page is visible
+        assert home.is_homepage_visible(), "Home page is not visible"
+        log.info("Home page is visible")
+
+        home.click_signup_login_btn()
+        log.info("Clicking Signup/Login button from navbar")
+
+        # Verify 'Login to your account' is visible
+        assert login.is_login_to_your_account_visible(), "Login to your account is not visible"
+        log.info("Login to your account is visible")
+
+        # Enter incorrect email address and password
+        login.fill_login_form(new_user)
+        log.info("Filling invalid data into login form")
+
+        #Click 'login' button
+        login.click_login()
+        log.info("Clicking Login button")
+
+        # Verify error 'Your email or password is incorrect!' is visible
+        assert login.is_email_password_incorrect_visible(), "'Your email or password is incorrect!' is not visible"
+        log.info("'Your email or password is incorrect!' is visible")
+
+        log.info("--Login User With Invalid Data Test is Completed--")
+
+    except AssertionError as e:
+        log.error(f"Assertion Failed: {e}")
+        raise
+    except Exception as e:
+        log.error(f"Unexpected error: {e}")
+        raise
+    finally:
+        log.info("--Login User With Invalid Data Test Execution Finished--")
+
+
 
