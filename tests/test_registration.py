@@ -84,3 +84,45 @@ def test_valid_user_register(driver, new_user):  # test complete user registrati
         log.info("Valid User Account Creation Test Execution Finished.")
 
 
+
+def test_register_user_with_existing_email(driver, registered_user): # Test- Register User with existing email 
+    # page class objects
+    home = HomePage(driver)
+    signup = RegistrationPage(driver)
+
+    log.info("--Starting Register User with Existing Email--")
+    try:
+        # Verify that home page is visible successfully
+        assert home.is_homepage_visible(), "Home Page is not Visible"
+        log.info("Home Page is Visible")
+
+        #Click on 'Signup / Login' button
+        home.click_signup_login_btn()
+        log.info("Cliking Signup Login button")
+
+        # Verify 'New User Signup!' is visible
+        assert signup.is_new_user_visible(), "New User Signup is not Visible"
+        log.info("New User Signup is visible")
+
+        # Enter name and already registered email address
+        signup.enter_signup_info(registered_user)
+        log.info("Filling name and already registered email address")
+
+        # Click 'Signup' button
+        signup.click_signup()
+        log.info("Clicked Signup Button")
+
+        # Verify error 'Email Address already exist!' is visible 
+        assert signup.is_email_already_exist(), "'Email Address already exist!' is not visible"
+        log.info("'Email Address already exist!' is visible ")
+
+        log.info("Register User with Existing Email Test is Completed")
+
+    except AssertionError as e:
+        log.error(f"Email address already exist! Test Failed: {e}")
+        raise
+    except Exception as e:
+        log.error(f"Unexpected Error: {e}")
+        raise
+    finally:
+        log.info("--Register User with Existing Email Test Execution Finished--")
