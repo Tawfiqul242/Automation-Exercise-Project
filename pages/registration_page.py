@@ -8,6 +8,7 @@ class RegistrationPage(BasePage):
     NAME = (By.CSS_SELECTOR, "input[placeholder='Name']")
     EMAIL_ADD = (By.CSS_SELECTOR, "input[data-qa='signup-email']")
     SIGNUP_BUTTON = (By.CSS_SELECTOR, "button[data-qa='signup-button']")
+    EMAIL_ALREADY_EXIST = (By.XPATH, "//p[normalize-space()='Email Address already exist!']")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -22,6 +23,9 @@ class RegistrationPage(BasePage):
         
     def click_signup(self):
         self.click(self.SIGNUP_BUTTON)
+
+    def is_email_already_exist(self):
+        return self.is_visible(self.EMAIL_ALREADY_EXIST)
 
  
 
