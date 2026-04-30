@@ -5,6 +5,7 @@ from utils.logger import setup_logging
 import logging
 from utils.user_helper import generate_user_data
 from utils.user_helper import register_new_user
+from pages.login_page import LoginPage
 
 #Initialize logging for once for the entire test session
 @pytest.fixture(scope="session", autouse= True)
@@ -73,7 +74,16 @@ def registered_user(driver, new_user):
     register_new_user(driver, new_user) # register new user
 
     log.info("New user registration completed")
-    print(f"fixture: {new_user}")
     return new_user
+
+#logged in user fixture for functional level
+@pytest.fixture(scope="function")
+def logged_in_user_info(driver):
+    login = LoginPage(driver)
+    user_data = {
+        "email": "rafin@gmail.com",
+        "password": "rafin"
+    }
+    return user_data
 
 
