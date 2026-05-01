@@ -33,6 +33,14 @@ class BasePage:
         element = self.wait_for_element_visibility(locator)
         Select(element).select_by_visible_text(value)
 
-    def is_visible(self, locator):
+    def is_visible(self, locator):   # it will return displayed element
         element = self.wait_for_element_visibility(locator)
         return element.is_displayed()
+    
+    def handle_alert(self, action = "accept"): # It will handle browser alert
+        alert = self.wait.until(EC.alert_is_present())
+
+        if action == "accept":
+            alert.accept()
+        else:
+            alert.dismiss() 
