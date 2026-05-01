@@ -38,7 +38,9 @@ def generate_user_data(name = None, email = None):
         "state": faker.state(),
         "city": faker.city(),
         "zipcode": faker.zipcode(),
-        "mobile": faker.msisdn()
+        "mobile": faker.msisdn(),
+        "subject": f"Business Purpose",
+        "message": f"I'm interested to do business with you. Please check out my submitted file."
     }
 
 # Registered user helper
