@@ -33,3 +33,7 @@ class HomePage(BasePage):
 
     def click_test_case_btn(self):
         self.click(self.TEST_CASES_BTN)
+
+    def click_product_btn(self):
+        self.click(self.PRODUCTS_BTN)
+        
