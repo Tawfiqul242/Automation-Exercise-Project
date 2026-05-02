@@ -30,3 +30,6 @@ class HomePage(BasePage):
 
     def click_contact_us_btn(self):
         self.click(self.cONTACT_US_BTN)
+
+    def click_test_case_btn(self):
+        self.click(self.TEST_CASES_BTN)
