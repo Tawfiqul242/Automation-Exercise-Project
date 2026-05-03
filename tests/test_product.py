@@ -67,3 +67,56 @@ def test_all_products_detail_page(driver): # Verify All Products and product det
 
     finally:
         log.info("--All Products & Product Detail Page Test Execution Finished--")
+
+
+def test_search_product(driver): # Search Product Test
+    # page class objects
+    home = HomePage(driver)
+    product_page = ProductPage(driver)
+
+    search_text = "tshirt"
+
+    log.info("--Starting  Search Product Test--")
+    try:
+        # Verify that home page is visible successfully
+        home.is_homepage_visible(), "Home Page is not visible"
+        log.info("Home Page is Visible")
+
+        # Click on 'Products' button
+        home.click_product_btn()
+        log.info("Clicked Products Button")
+
+        # Verify user is navigated to ALL PRODUCTS page successfully
+        assert product_page.is_all_product_visible(), "User is not navigated to ALL PRODUCTS page"
+        log.info("User is navigated to ALL PRODUCTS page")
+
+        # Enter product name in search input and click search button
+        product_page.fill_search_bar(search_text)
+        log.info("Filling Search Bar")
+        product_page.click_search_btn()
+        log.info("Clicked Search Button")
+
+        # Verify 'SEARCHED PRODUCTS' is visible
+        assert product_page.is_searched_product_title_visible(), "'SEARCHED PRODUCTS' is not visible"
+        log.info("'SEARCHED PRODUCTS' is visible")
+
+        # Verify all the products related to search are visible
+        products = product_page.get_all_product()
+        
+        for product in products:
+            assert search_text.lower() in product_page.text_normalizer(product), f"{product} is not related to search: {search_text}"
+            log.info(f"{product} is related to search: {search_text}")
+
+    except AssertionError as e:
+        log.error(f"Search Product Test Failed: {e}")
+        raise
+    except Exception as e:
+        log.error(f"Unexpected Error: {e}")
+        raise
+    finally:
+        log.info("--Search Product Test Execution Finished--")
+            
+
+
+
+
