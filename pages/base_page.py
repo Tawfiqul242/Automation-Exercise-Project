@@ -9,8 +9,11 @@ class BasePage:
         self.wait = WebDriverWait(driver, timeout)
 
     
-    def wait_for_element_visibility(self, locator):      #responsible for element's wait
+    def wait_for_element_visibility(self, locator):      #responsible for single element's wait
         return self.wait.until(EC.visibility_of_element_located(locator)) 
+    
+    def wait_for_elements_visibility(self, locator):      #responsible for multiple element's wait
+        return self.wait.until(EC.visibility_of_all_elements_located(locator)) 
     
     def click(self, locator):                 # responsible for clicking elements
         element = self.wait_for_element_visibility(locator)
@@ -44,3 +47,6 @@ class BasePage:
             alert.accept()
         else:
             alert.dismiss() 
+
+    def text_normalizer(self,text): # It will remove " ", -, _ from a text
+        return text.lower().replace(" ", "").replace("-", "").replace("_", "")
