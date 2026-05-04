@@ -50,3 +50,7 @@ class BasePage:
 
     def text_normalizer(self,text): # It will remove " ", -, _ from a text
         return text.lower().replace(" ", "").replace("-", "").replace("_", "")
+    
+    def scroller(self, locator): # it willl scroll through the web page
+        element = self.wait_for_element_visibility(locator)
+        self.driver.execute_script("arguments[0].scrollIntoView(true)", element)
