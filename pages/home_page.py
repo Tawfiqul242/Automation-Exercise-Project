@@ -41,6 +41,9 @@ class HomePage(BasePage):
     def click_product_btn(self):
         self.click(self.PRODUCTS_BTN)
 
+    def click_cart_btn(self):
+        self.click(self.CART_BTN)
+
     def scroll_to_footer(self):
         self.scroller(self.FOOTER)
         
