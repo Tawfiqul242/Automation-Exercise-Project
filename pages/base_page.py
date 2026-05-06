@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 class BasePage:
 
@@ -16,7 +17,7 @@ class BasePage:
         return self.wait.until(EC.visibility_of_all_elements_located(locator)) 
     
     def click(self, locator):                 # responsible for clicking elements
-        element = self.wait_for_element_visibility(locator)
+        element = self.wait.until(EC.element_to_be_clickable(locator))
         element.click()
 
     def send_key(self, locator, value):       # responsible for sending values
@@ -49,8 +50,12 @@ class BasePage:
             alert.dismiss() 
 
     def text_normalizer(self,text): # It will remove " ", -, _ from a text
-        return text.lower().replace(" ", "").replace("-", "").replace("_", "")
+        return text.replace(" ", "").replace("-", "").replace("_", "").replace("Rs.", "").lower()
     
     def scroller(self, locator): # it willl scroll through the web page
         element = self.wait_for_element_visibility(locator)
-        self.driver.execute_script("arguments[0].scrollIntoView(true)", element)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+    def hover_over(self, locator): # It will hover over on web element
+        element = self.wait_for_element_visibility(locator)
+        ActionChains(self.driver).move_to_element(element).perform()
