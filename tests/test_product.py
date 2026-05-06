@@ -1,7 +1,9 @@
+import time
 import logging
 from pages.home_page import HomePage
 from pages.product_page import ProductPage
 from pages.product_details_page import ProductDetailsPage
+from pages.cart_page import CartPage
 
 log = logging.getLogger(__name__)
 
@@ -117,6 +119,85 @@ def test_search_product(driver): # Search Product Test
         log.info("--Search Product Test Execution Finished--")
             
 
+def test_add_products_in_cart(driver): # Add Products in Cart Test
+    # page class objects
+    home_page = HomePage(driver)
+    product_page = ProductPage(driver)
+    cart_page = CartPage(driver)
 
+    log.info("--Starting Add Products in Cart Test--")
+    try:
+        # Verify that home page is visible successfully
+        home_page.is_homepage_visible(), "Home Page is not visible"
+        log.info("Home Page is Visible")
 
+        # Click 'Products' button
+        home_page.click_product_btn()
+        log.info("Clicked Product Button")
+
+        # Scroll to all product
+        product_page.scroll_to_all_products()
+        log.info("Scrolling to All Products")
+
+        # Hover over first product and click 'Add to cart'
+        product_page.add_product_by_index(0)
+        log.info("Hovering over the first product")
+        log.info("Clicked Add to Cart Button")
+
+        # Click 'Continue Shopping' button
+        product_page.click_continure_shopping_btn()
+        log.info("Clicked Continue Shopping Button")
+
+        """ # Scroll to all product
+        product_page.scroll_to_all_products()
+        log.info("Scrolling to All Products")
+        time.sleep(3) """
+
+        # Hover over second product and click 'Add to cart'
+        product_page.add_product_by_index(1)
+        log.info("Hovering over the 2nd product")
+        log.info("Clicked Add to Cart Button")
+        time.sleep(3)
+
+        # Click 'View Cart' button
+        product_page.click_view_cart_btn()
+        log.info("Clicked View Cart Button")
+        time.sleep(3)
+
+        # Verify both products are added to Cart
+        cart_products = cart_page.get_cart_products()
+        
+        # First Product Blue Top
+        assert cart_page.text_normalizer("Blue Top") in cart_products, "Blue Top not in the cart"
+        log.info("Blue Top added to cart")
+
+        # 2nd Product Men Tshirt
+        assert cart_page.text_normalizer("Men Tshirt") in cart_products, "Men Tshirt not in the cart"
+        log.info("Men Tshirt added to cart")
+
+        # Verify their prices, quantity and total price
+        prices = cart_page.get_prices()
+        qty = cart_page.get_quantities()
+        totals = cart_page.get_totals()
+
+        # verify prices
+        assert len(prices) == 2, "Tow different product price is not available"
+        log.info("Tow different product price is available")
+
+        # verify quantity
+        assert len(qty) == 2, "Two different quanitity is not available"
+        log.info("Two different quanitity is available")
+
+        # verify total
+        assert len(totals) == 2, "Two different total is not available"
+        log.info("Two different total is available")
+
+    except AssertionError as e:
+        log.error(f"Add Products in Cart Test Failed: {e}")
+        raise
+    except Exception as e:
+        log.error(f"Unexpected Error: {e}")
+        raise
+    finally:
+        log.info("--Add Products in Cart Test Execution Finished--")
 
