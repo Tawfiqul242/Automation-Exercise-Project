@@ -14,6 +14,9 @@ class HomePage(BasePage):
     cONTACT_US_BTN = (By.XPATH, "//a[normalize-space()='Contact us']")
     SUBSCRIPTION_TITLE = (By.XPATH, "//h2[normalize-space()='Subscription']")
     FOOTER = (By.XPATH, "//footer[@id='footer']")
+    PRODUCT_LIST = (By.XPATH, "//div[@class='features_items']")
+    VIEW_PRODUCT_BTN = (By.XPATH, "(//div[@class='choose']//ul//li//a")
+    FEATURE_ITEMS_TITLE = (By.XPATH, "//h2[normalize-space()='Features Items']")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -46,4 +49,13 @@ class HomePage(BasePage):
 
     def scroll_to_footer(self):
         self.scroller(self.FOOTER)
+
+    def scroll_to_feature_items(self):
+        self.scroller(self.FEATURE_ITEMS_TITLE)
+
+    def click_view_product_btn(self):
+        products = self.wait_for_elements_visibility(self.PRODUCT_LIST)
+        view_btn = products[0].find_element(By.XPATH, ".//a[contains(text(),'View Product')]")
+        self.driver.execute_script("arguments[0].click();", view_btn)
+
         
