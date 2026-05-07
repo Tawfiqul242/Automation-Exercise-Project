@@ -22,6 +22,9 @@ class CartPage(BasePage):
     def scroll_down_to_footer(self):
         self.scroller(self.FOOTER)
 
+    def is_product_visible(self):
+        return self.is_visible(self.CART_PRODUCT_DETAILS)
+
     def get_cart_products(self):
         products = self.wait_for_elements_visibility(self.CART_PRODUCTS_NAME)
         return [self.text_normalizer(product.text) for product in products]
