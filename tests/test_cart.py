@@ -1,6 +1,7 @@
 import logging
 from pages.home_page import HomePage
 from pages.cart_page import CartPage
+from pages.product_details_page import ProductDetailsPage
 
 log = logging.getLogger(__name__)
 
@@ -47,3 +48,60 @@ def test_subscription_in_cart_page(driver):
         raise
     finally:
         log.info("--Subscription In Cart Page Test Execution Finished--")
+
+def test_product_quantity_in_cart(driver):
+    #page class objects
+    home = HomePage(driver)
+    cart = CartPage(driver)
+    product_detail = ProductDetailsPage(driver)
+
+    target_quantity = 4
+
+    log.info("--Starting Subscription in Cart Page Test--")
+    try:
+        # Verify that home page is visible successfully
+        assert home.is_homepage_visible(), "Home page is not visible successfully"
+        log.info("Home page is visible successfully")
+
+        # scroll to feature items
+        home.scroll_to_feature_items()
+        log.info("Scrolling to feature items")
+
+        # Click 'View Product' for any product on home page
+        home.click_view_product_btn()
+        log.info("Clicked View Product Button")
+
+        # Verify product detail is opened
+        assert product_detail.is_product_details_visible(), "Product details is not opened"
+        log.info("Product details is opened")
+
+        # Increase quantity to 4
+        product_detail.increase_product_qty(target_quantity)
+        log.info(f"Increasing product quantity to {target_quantity}")
+
+        # Click 'Add to cart' button
+        product_detail.click_add_to_cart_btn()
+        log.info("Clicked Add to Cart Button")
+
+        # Click 'View Cart' button
+        product_detail.click_view_cart_btn()
+        log.info("Clicked View Cart Button")
+
+        # Verify that product is displayed in cart page with exact quantity
+        assert cart.is_product_visible(), "Product is not displayed"
+        log.info("Product is displayed")
+
+        qty_list = cart.get_quantities()
+        assert int(qty_list[0]) == target_quantity, "Quantity is not exact"
+        log.info("Quantity is exact")
+
+    except AssertionError as e:
+        log.error(f"Product Quantity In Cart Test Failed: {e}")
+        raise
+    except Exception as e:
+        log.error(f"Unexpected Error: {e}")
+        raise
+    finally:
+        log.info("--Product Quantity In Cart Test Execution Finished--")
+
+
