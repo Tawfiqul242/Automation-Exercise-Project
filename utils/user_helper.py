@@ -68,3 +68,17 @@ def register_new_user(driver, user_data):
 
     home_page.click_home_btn()
     log.info("Clicking Home button")
+
+def card_info():
+    faker = Faker()
+    random_card_number = random.randint(1122334569, 1544504569)
+    random_cvc = random.randint(300, 900)
+    random_month = random.randint(10,12)
+    random_year = random.randint(2029, 2030)
+    return{
+        "card_name": faker.name(),
+        "card_number": random_card_number,
+        "cvc": random_cvc,
+        "month": random_month,
+        "year": random_year
+    }
