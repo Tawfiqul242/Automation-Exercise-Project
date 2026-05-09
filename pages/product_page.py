@@ -1,6 +1,6 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
+from pages.components.product_cart import ProductCart
 
 class ProductPage(BasePage):
     # page locators
@@ -14,13 +14,12 @@ class ProductPage(BasePage):
     HOVER_2nd_PRODUCT = (By.XPATH, "(//div[@class='product-overlay'])[1]")
     SECOND_ADD_TO_CART_BTN = (By.XPATH, "(//a[@class='btn btn-default add-to-cart'][normalize-space()='Add to cart'])[4]")
     ADD_TO_CART_BTN = (By.XPATH, "//*[contains(@class,'add-to-cart')]")
-    VIEW_CART_BTN = (By.XPATH, "//u[normalize-space()='View Cart']")
-    CONTINUE_SHOPPING_BTN = (By.XPATH, "//button[normalize-space()='Continue Shopping']")
     VIEW_PRODUCT_BTN = (By.CSS_SELECTOR, "a[href='/product_details/1']")
     SEARCHED_PRODUCT_TITLE = (By.XPATH, "//h2[normalize-space()='Searched Products']")
 
     def __init__(self, driver):
         super().__init__(driver)
+        self.product_cart = ProductCart(driver)
 
     # page action methods
     def is_all_product_visible(self):
@@ -56,23 +55,6 @@ class ProductPage(BasePage):
     
     def scroll_to_all_products(self):
         self.scroller(self.ALL_PRODUCT_TITLE)
-
-    def hover_over_element(self, element):
-        ActionChains(self.driver).move_to_element(element).perform()
-
-    def add_product_by_index(self, index):
-        products = self.wait_for_elements_visibility(self.PRODUCT_LIST)
-        product = products[index]
-        self.hover_over_element(product)
-        add_btn = product.find_element(By.CSS_SELECTOR, ".overlay-content a")
-        self.driver.execute_script("arguments[0].click();", add_btn)
-    
-    def click_continure_shopping_btn(self):
-        self.click(self.CONTINUE_SHOPPING_BTN)
-
-    def click_view_cart_btn(self):
-        self.click(self.VIEW_CART_BTN)
-
         
 
 
