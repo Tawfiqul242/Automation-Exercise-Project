@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
-from pages.subscription_component import subscriptionComponent
+from pages.components.subscription_component import subscriptionComponent
 
 class CartPage(BasePage):
     # page locators
@@ -12,6 +12,9 @@ class CartPage(BasePage):
     CART_PRODUCTS_PRICE = (By.XPATH, "//td[contains(@class,'cart_price')]//p")
     CART_PRODUCTS_QUANTITY = (By.XPATH, "//td[contains(@class,'cart_quantity')]//button")
     CART_PRODUCTS_TOTAL = (By.XPATH, "//td[contains(@class,'cart_total')]//p")
+    SHOPPING_CART_TITLE = (By.XPATH, "//li[@class='active']")
+    PROCEED_TO_CHECKOUT = (By.XPATH, "//a[normalize-space()='Proceed To Checkout']")
+    CHECKOUT_LOGIN_SIGNUP_BTN = (By.XPATH, "//u[normalize-space()='Register / Login']")
 
 
     def __init__(self, driver):
@@ -19,6 +22,9 @@ class CartPage(BasePage):
         self.subscription = subscriptionComponent(driver)
 
     # page action methods
+    def is_shopping_cart_visible(self):
+        return self.is_visible(self.SHOPPING_CART_TITLE)
+    
     def scroll_down_to_footer(self):
         self.scroller(self.FOOTER)
 
@@ -37,6 +43,12 @@ class CartPage(BasePage):
 
     def get_totals(self):
         return [e.text for e in self.wait_for_elements_visibility(self.CART_PRODUCTS_TOTAL)]
+    
+    def click_proceed_to_checkout_btn(self):
+        self.click(self.PROCEED_TO_CHECKOUT)
+
+    def click_signin_signup_btn(self):
+        self.click(self.CHECKOUT_LOGIN_SIGNUP_BTN)
 
 
 
