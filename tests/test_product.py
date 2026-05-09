@@ -140,29 +140,23 @@ def test_add_products_in_cart(driver): # Add Products in Cart Test
         log.info("Scrolling to All Products")
 
         # Hover over first product and click 'Add to cart'
-        product_page.add_product_by_index(0)
+        product_page.product_cart.add_product_by_index(0)
         log.info("Hovering over the first product")
         log.info("Clicked Add to Cart Button")
 
         # Click 'Continue Shopping' button
-        product_page.click_continure_shopping_btn()
+        product_page.product_cart.click_continure_shopping_btn()
         log.info("Clicked Continue Shopping Button")
 
-        """ # Scroll to all product
-        product_page.scroll_to_all_products()
-        log.info("Scrolling to All Products")
-        time.sleep(3) """
 
         # Hover over second product and click 'Add to cart'
-        product_page.add_product_by_index(1)
+        product_page.product_cart.add_product_by_index(1)
         log.info("Hovering over the 2nd product")
         log.info("Clicked Add to Cart Button")
-        time.sleep(3)
 
         # Click 'View Cart' button
-        product_page.click_view_cart_btn()
+        product_page.product_cart.click_view_cart_btn()
         log.info("Clicked View Cart Button")
-        time.sleep(3)
 
         # Verify both products are added to Cart
         cart_products = cart_page.get_cart_products()
