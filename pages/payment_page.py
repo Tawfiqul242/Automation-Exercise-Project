@@ -9,7 +9,7 @@ class PaymentPage(BasePage):
     EXPIRATION_MONTH = (By.XPATH, "//input[@placeholder='MM']")
     EXPIRATION_YEAR = (By.XPATH, "//input[@placeholder='YYYY']")
     PAY_CONFIRM_ORDER_BTN = (By.XPATH, "//button[@id='submit']")
-    PAYMENT_SUCCESS_MESSAGE = (By.XPATH, "//*[contains(text(),'placed')]")
+    PAYMENT_SUCCESS_MESSAGE = (By.XPATH, "//b[normalize-space()='Order Placed!']")
 
     def __init__(self, driver):
         super().__init__(driver)
