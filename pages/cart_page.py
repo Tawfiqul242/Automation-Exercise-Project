@@ -49,8 +49,12 @@ class CartPage(BasePage):
     def get_remove_btn(self):
         return [e for e in self.wait_for_elements_visibility(self.ITEM_REMOVE_BTN)]
     
-    def is_cart_is_empty_title_visible(self):
-        return self.is_visible(self.CART_IS_EMPTY_TITLE)
+    def is_product_removed(self, product_name):
+        products = self.get_cart_products()
+        for product in products:
+            if product_name in product:
+                return False
+        return True
     
     def click_proceed_to_checkout_btn(self):
         self.click(self.PROCEED_TO_CHECKOUT)
