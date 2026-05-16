@@ -1,6 +1,7 @@
 import logging
 from pages.home_page import HomePage
 from pages.registration_page import RegistrationPage
+from pages.login_page import LoginPage
 from pages.account_info_page import AccountInfoPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
@@ -252,3 +253,113 @@ def test_register_before_checkout(driver, new_user): # Register Before Checkout 
 
     finally:
         log.info("--Register Before Checkout Test Execution Finished--")
+
+
+
+def test_login_before_checkout(driver, registered_user): # Place Order: Login before Checkout
+    #page class objects
+    home = HomePage(driver)
+    login = LoginPage(driver)
+    account = AccountInfoPage(driver)
+    cart = CartPage(driver)
+    checkout = CheckoutPage(driver)
+    payment = PaymentPage(driver)
+    log.info("--Starting Register Before Checkout Test--")
+
+    try:
+        # Verify that home page is visible successfully
+        assert home.is_homepage_visible(), "Home page is not visible successfully"
+        log.info("Home page is visible successfully")
+
+        # Click 'Signup / Login' button
+        home.click_signup_login_btn()
+        log.info("Clicked signup/ login button")
+
+        #Fill email, password and click 'Login' button
+        login.fill_login_form(registered_user)
+        login.click_login()
+        log.info("Filling Login Form & Clicked Login Button")
+
+        # Verify 'Logged in as username' at top
+        assert account.is_logged_in_visible(), "Logged in not as username"
+        log.info("Logged in as username")
+
+        # Add products to cart
+        home.scroll_to_feature_items()
+        log.info("Scrolling to features items")
+
+        home.product_cart.add_product_by_index(0)
+        log.info("Clicked Add to cart button of first product")
+        
+        home.product_cart.click_continure_shopping_btn()
+
+        # Click 'Cart' button
+        home.click_cart_btn()
+        log.info("Clicked Cart Button from navbar")
+
+        # Verify that cart page is displayed
+        cart.is_shopping_cart_visible(), "Cart page is not displayed"
+        log.info("Cart page is displayed")
+
+        # Click Proceed To Checkout
+        cart.click_proceed_to_checkout_btn()
+        log.info("Clicked Proceed To Checkout Button")
+
+        # Verify Address Details and Review Your Order
+        assert checkout.is_delivery_address_visible(), "Delivery address is not visible"
+        log.info("Delivery address is visible")
+
+        assert checkout.is_billing_address_visible, "Billing address is not visible"
+        log.info("Billing address is visible")
+
+        products = checkout.get_ordered_products()
+
+        assert products[0]["name"] == checkout.text_normalizer("Blue Top"), "Product Name is not correct"
+        log.info("Product Name is correct")
+        
+        assert products[0]["price"] == checkout.text_normalizer("500"), "Product Price is not correct"
+        log.info("Product Price is correct")
+
+        assert products[0]["qty"] == checkout.text_normalizer("1"), "Product Quantity is not correct"
+        log.info("Product Quantity is correct")
+
+        # Enter description in comment text area and click 'Place Order'
+        checkout.write_comment()
+        checkout.click_place_order_btn()
+        log.info("Description in comment text and clicked the Place Order Button")
+
+        # Enter payment details: Name on Card, Card Number, CVC, Expiration date
+        payment.fill_payment_info(card_info())
+        log.info("Filling Payment Info")
+
+        # Click 'Pay and Confirm Order' button
+        payment.click_pay_confirm_order()
+        log.info("Clicked Pay & Confirm Order Button")
+    
+        # Verify success message 'Your order has been placed successfully!'
+        assert payment.is_order_success_message_visible(), "Order Placed is not visible"
+        log.info("Order Placed is visible")
+
+
+        # Click 'Delete Account' button
+        home.click_delete_btn()
+        log.info("Clicked Delete Button")
+
+        # Verify 'ACCOUNT DELETED!' and click 'Continue' button
+        home.is_account_deleted_visible(), "'ACCOUNT DELETED!'is not visible"
+        log.info("'ACCOUNT DELETED!'is visible")
+
+        home.click_delete_continue()
+        log.info("Clicked Continue Button")
+    
+    except AssertionError as e:
+        log.error(f"Assertion Failed:{e}") 
+        raise
+
+    except Exception as e:
+        log.error(f"Unexpected error in test: {e}")
+        raise
+
+    finally:
+        log.info("--Register Before Checkout Test Execution Finished--")
+
