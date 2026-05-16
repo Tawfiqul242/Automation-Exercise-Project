@@ -139,7 +139,7 @@ def test_remove_products_from_cart(driver): # Remove Products From Cart Test
         cart.click(remove_btn[0])
 
         # Verify that product is removed from the cart
-        assert cart.is_cart_is_empty_title_visible(), "Product is not removed from the cart"
+        assert cart.is_product_removed("Blue Top"), "Product is not removed from the cart"
         log.info("Product is removed from the cart")
 
     except AssertionError as e:
