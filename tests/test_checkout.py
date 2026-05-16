@@ -105,9 +105,9 @@ try:
         payment.click_pay_confirm_order()
         log.info("Clicked 'Pay and Confirm Order' button")
 
-        """ #Verify success message 'Your order has been placed successfully!'
-        assert payment.is_order_success_message_visible(), "'Your order has been placed successfully!' is not visible"
-        log.info("Success Message is Visible") """
+        #Verify success message 'Your order has been placed successfully!'
+        assert payment.is_order_success_message_visible(), "'Success message is not visible"
+        log.info("Success Message is Visible")
 
         #Click 'Delete Account' button
         home.click_delete_btn()
@@ -134,3 +134,121 @@ finally:
 
 
 
+def test_register_before_checkout(driver, new_user): # Register Before Checkout Test
+    #page class objects
+    home = HomePage(driver)
+    register = RegistrationPage(driver)
+    account = AccountInfoPage(driver)
+    cart = CartPage(driver)
+    checkout = CheckoutPage(driver)
+    payment = PaymentPage(driver)
+
+    log.info("--Starting Register Before Checkout Test--")
+
+    try:
+        # Verify that home page is visible successfully
+        assert home.is_homepage_visible(), "Home page is not visible successfully"
+        log.info("Home page is visible successfully")
+
+        # Click 'Signup / Login' button
+        home.click_signup_login_btn()
+        log.info("Clicked signup/ login button")
+
+        # Fill all details in Signup and create account
+        register.enter_signup_info(new_user)
+        log.info("Filling Signup Form")
+
+        register.click_signup()
+        log.info("Clicked Signup Button")
+
+        account.enter_create_account_info(new_user)
+        account.click_create_account()
+        log.info("Clicked Create Account Button")
+
+        # Verify 'ACCOUNT CREATED!' and click 'Continue' button
+        assert account.is_account_created_visible(), "'ACCOUNT CREATED!' is not visible"
+        log.info("'ACCOUNT CREATED!' is visible")
+
+        account.click_create_continue()
+        log.info("Clicked Continue Button")
+
+        # Verify ' Logged in as username' at top
+        assert  account.is_logged_in_visible(), "Logged in not as username"
+        log.info("Logged in as username")
+
+        # Add products to cart
+        home.scroll_to_feature_items()
+        log.info("Scrolling to features products")
+
+        home.product_cart.add_product_by_index(0)
+        log.info("Clicked Add to Cart Button")
+
+        # Click 'Cart' button
+        home.click_cart_btn()
+        log.info("clicked Cart Button from Navbar")
+
+        # Verify that cart page is displayed
+        assert cart.is_shopping_cart_visible, "Cart Page is not visible"
+        log.info("Cart Page is visible")
+
+        # Click Proceed To Checkout
+        cart.click_proceed_to_checkout_btn()
+        log.info("Clicked Proceed to checkout Button")
+
+        # Verify Address Details and Review Your Order
+        assert checkout.is_delivery_address_visible(), "Delivery address is not visible"
+        log.info("Delivery address is visible")
+
+        assert checkout.is_billing_address_visible, "Billing address is not visible"
+        log.info("Billing address is visible")
+
+        products = checkout.get_ordered_products()
+
+        assert products[0]["name"] == checkout.text_normalizer("Blue Top"), "Product Name is not correct"
+        log.info("Product Name is correct")
+        
+        assert products[0]["price"] == checkout.text_normalizer("500"), "Product Price is not correct"
+        log.info("Product Price is correct")
+
+        assert products[0]["qty"] == checkout.text_normalizer("1"), "Product Quantity is not correct"
+        log.info("Product Quantity is correct")
+
+        # Enter description in comment text area and click 'Place Order'
+        checkout.write_comment()
+        checkout.click_place_order_btn()
+        log.info("Description in comment text and clicked the Place Order Button")
+
+        # Enter payment details: Name on Card, Card Number, CVC, Expiration date
+        payment.fill_payment_info(card_info())
+        log.info("Filling Payment Info")
+
+        # Click 'Pay and Confirm Order' button
+        payment.click_pay_confirm_order()
+        log.info("Clicked Pay & Confirm Order Button")
+    
+        # Verify success message 'Your order has been placed successfully!'
+        assert payment.is_order_success_message_visible(), "Order Placed is not visible"
+        log.info("Order Placed is visible")
+
+
+        # Click 'Delete Account' button
+        home.click_delete_btn()
+        log.info("Clicked Delete Button")
+
+        # Verify 'ACCOUNT DELETED!' and click 'Continue' button
+        home.is_account_deleted_visible(), "'ACCOUNT DELETED!'is not visible"
+        log.info("'ACCOUNT DELETED!'is visible")
+
+        home.click_delete_continue()
+        log.info("Clicked Continue Button")
+
+    except AssertionError as e:
+        log.error(f"Assertion Failed:{e}") 
+        raise
+
+    except Exception as e:
+        log.error(f"Unexpected error in test: {e}")
+        raise
+
+    finally:
+        log.info("--Register Before Checkout Test Execution Finished--")
