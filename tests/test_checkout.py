@@ -264,7 +264,7 @@ def test_login_before_checkout(driver, registered_user): # Place Order: Login be
     cart = CartPage(driver)
     checkout = CheckoutPage(driver)
     payment = PaymentPage(driver)
-    log.info("--Starting Register Before Checkout Test--")
+    log.info("--Starting Login Before Checkout Test--")
 
     try:
         # Verify that home page is visible successfully
@@ -361,5 +361,5 @@ def test_login_before_checkout(driver, registered_user): # Place Order: Login be
         raise
 
     finally:
-        log.info("--Register Before Checkout Test Execution Finished--")
+        log.info("--Login Before Checkout Test Execution Finished--")
 
