@@ -27,7 +27,7 @@ class BasePage:
 
     def get_text(self, locator):              # it will return messages
         element = self.wait_for_element_visibility(locator)
-        return element.text
+        return self.text_normalizer(element.text)
     
     def select_dropdown_by_value(self, locator, value): # it will select options from dropdown by value
         element = self.wait_for_element_visibility(locator)
