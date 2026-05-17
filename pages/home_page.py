@@ -21,6 +21,13 @@ class HomePage(BasePage):
     DELETE_BTN = (By.XPATH, "//a[normalize-space()='Delete Account']")
     ACCOUNT_DELETED = (By.CSS_SELECTOR, "h2[class='title text-center'] b")
     DELETE_CONTINUE_BTN = (By.XPATH, "//a[normalize-space()='Continue']")
+    CATEGORY_TITLE = (By.XPATH, "//h2[normalize-space()='Category']")
+    WOMEN_CATEGORY = (By.XPATH, "//a[normalize-space()='Women']")
+    WOMEN_SUB_CAT= (By.XPATH, "//div[@id='Women']//a")
+    MEN_CATEGORY = (By.XPATH, "//a[normalize-space()='Men']")
+    MEN_SUB_CAT = (By.XPATH, "//div[@id='Men']//a")
+    KIDS_CATEGORY = (By.XPATH, "//a[normalize-space()='Kids']")
+    KIDS_SUB_CAT = (By.XPATH, "//div[@id='Kids']//a")
 
 
     def __init__(self, driver):
@@ -73,4 +80,22 @@ class HomePage(BasePage):
     def click_delete_continue(self):
         self.click(self.DELETE_CONTINUE_BTN)
 
-        
+    def scroll_to_category(self):
+        self.scroller(self.CATEGORY_TITLE)
+
+    def is_category_title_visible(self):
+        return self.is_visible(self.CATEGORY_TITLE)
+
+    def click_women_category(self):
+        self.click(self.WOMEN_CATEGORY)
+    
+    def select_women_sub_category(self, name):
+        locator = (By.XPATH, f"//div[@id='Women']//a[contains(text(),'{name}')]")
+        self.click(locator)
+
+    def click_men_category(self):
+        self.click(self.MEN_CATEGORY)
+
+    def select_men_sub_category(self, name):
+        locator = (By.XPATH, f"//a[normalize-space()='{name}']")
+        self.click(locator)
