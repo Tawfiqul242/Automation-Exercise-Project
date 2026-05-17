@@ -2,6 +2,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.common.exceptions import StaleElementReferenceException
 
 class BasePage:
 
@@ -17,8 +19,21 @@ class BasePage:
         return self.wait.until(EC.visibility_of_all_elements_located(locator)) 
     
     def click(self, locator):                 # responsible for clicking elements
-        element = self.wait.until(EC.element_to_be_clickable(locator))
-        element.click()
+        for _ in range():
+            try:
+                element = self.wait.until(EC.element_to_be_clickable(locator))
+                self.scroller(locator)
+                element.click()
+                return
+            
+            except ElementClickInterceptedException:
+                element = self.wait.until(EC.presence_of_element_located(locator))
+                self.driver.execute_script("arguments[0].click()", element)
+                return
+            
+            except StaleElementReferenceException:
+                continue
+        raise Exception("Could not click the element")
 
     def send_key(self, locator, value):       # responsible for sending values
         element = self.wait_for_element_visibility(locator)
