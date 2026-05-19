@@ -16,7 +16,7 @@ class ProductPage(BasePage):
     ADD_TO_CART_BTN = (By.XPATH, "//*[contains(@class,'add-to-cart')]")
     VIEW_PRODUCT_BTN = (By.CSS_SELECTOR, "a[href='/product_details/1']")
     SEARCHED_PRODUCT_TITLE = (By.XPATH, "//h2[normalize-space()='Searched Products']")
-    SUB_CATEGORY_TITLES = (By.CSS_SELECTOR, ".title.text-center")
+    SUB_CATEGORY_OR_BRAND_TITLES = (By.CSS_SELECTOR, ".title.text-center")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -54,14 +54,18 @@ class ProductPage(BasePage):
     
         return names
     
+    def are_products_visible(self):
+        products = self.wait_for_elements_visibility(self.PRODUCT_LIST)
+        return len(products)>0
+    
     def scroll_to_all_products(self):
         self.scroller(self.ALL_PRODUCT_TITLE)
         
-    def is_sub_category_title_visible(self):
-        return self.is_visible(self.SUB_CATEGORY_TITLES)
+    def is_sub_category_or_brand_title_visible(self):
+        return self.is_visible(self.SUB_CATEGORY_OR_BRAND_TITLES)
     
-    def get_sub_category_text(self):
-        return self.get_text(self.SUB_CATEGORY_TITLES)
+    def get_sub_category_or_brand_text(self):
+        return self.text_normalizer(self.get_text(self.SUB_CATEGORY_OR_BRAND_TITLES))
 
 
     
