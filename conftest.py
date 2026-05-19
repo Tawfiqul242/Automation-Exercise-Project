@@ -19,8 +19,8 @@ def setup_project_logging():
     logging.shutdown()
     log.info("Logging shut down complete.")
 
-#Driver fixtue for function level
-@pytest.fixture(scope= "function")
+#Driver fixtue for module level
+@pytest.fixture(scope= "module")
 def driver():
     log = logging.getLogger(__name__)
 
