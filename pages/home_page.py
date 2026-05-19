@@ -28,6 +28,8 @@ class HomePage(BasePage):
     MEN_SUB_CAT = (By.XPATH, "//div[@id='Men']//a")
     KIDS_CATEGORY = (By.XPATH, "//a[normalize-space()='Kids']")
     KIDS_SUB_CAT = (By.XPATH, "//div[@id='Kids']//a")
+    BRANDS_TITLE = (By.XPATH, "//h2[normalize-space()='Brands']")
+    BRAND_LIST = (By.XPATH, "//div[contains(@class,'brands-name')]//li/a")
 
 
     def __init__(self, driver):
@@ -99,3 +101,21 @@ class HomePage(BasePage):
     def select_men_sub_category(self, name):
         locator = (By.XPATH, f"//a[normalize-space()='{name}']")
         self.click(locator)
+
+    def scroll_to_brand(self):
+        self.scroller(self.BRANDS_TITLE)
+
+    def is_brand_title_visible(self):
+        return self.is_visible(self.BRANDS_TITLE)
+    
+    def are_brands_visilbe(self):
+        brands = self.wait_for_elements_visibility(self.BRAND_LIST)
+        return len(brands)>0
+    
+    def select_brand(self, name):
+        brands = self.wait_for_elements_visibility(self.BRAND_LIST)
+
+        for brand in brands:
+            if  self.text_normalizer(name) in self.text_normalizer(brand.text):
+                brand.click()
+                return
