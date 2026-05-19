@@ -19,10 +19,10 @@ class BasePage:
         return self.wait.until(EC.visibility_of_all_elements_located(locator)) 
     
     def click(self, locator):                 # responsible for clicking elements
-        for _ in range():
+        for _ in range(3):
             try:
                 element = self.wait.until(EC.element_to_be_clickable(locator))
-                self.scroller(locator)
+                self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", element)
                 element.click()
                 return
             
